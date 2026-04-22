@@ -1,0 +1,82 @@
+{
+    "complaints": [
+        {
+            "id": "CMP-001",
+            "user_id": "USR-001",
+            "address": "Anjanapura, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560062, India",
+            "category": "Electricity",
+            "description": "in my area street light is not working ",
+            "date": "2026-04-18",
+            "lat": "12.887587",
+            "lng": "77.549059",
+            "status": "Open",
+            "image": "",
+            "timestamp": "2026-04-21T21:20:28.641813"
+        },
+        {
+            "id": "CMP-002",
+            "user_id": 2,
+            "address": "vasantpura, Bangalore South, Bengaluru Urban, Karnataka, 562130, India",
+            "category": "Water",
+            "description": "In area drinking water requirement ",
+            "date": "",
+            "lat": "12.9786",
+            "lng": "77.364",
+            "status": "Open",
+            "image": "",
+            "timestamp": "2026-04-22T08:16:14.759884"
+        },
+        {
+            "id": "CMP-003",
+            "user_id": 2,
+            "address": "Banglore",
+            "category": "Electricity",
+            "description": "no proper electricity",
+            "date": "",
+            "lat": "",
+            "lng": "",
+            "status": "Open",
+            "image": "",
+            "timestamp": "2026-04-22T08:19:27.618418"
+        },
+        {
+            "id": "CMP-004",
+            "user_id": 2,
+            "address": "Banglore",
+            "category": "Electricity",
+            "description": "no proper electricity",
+            "date": "",
+            "lat": "",
+            "lng": "",
+            "status": "Open",
+            "image": "",
+            "timestamp": "2026-04-22T08:19:55.185734"
+        },
+        {
+            "id": "CMP-005",
+            "user_id": "USR-001",
+            "address": "Anjanapura, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560062, India",
+            "category": "Roads",
+            "description": "roads are not clean",
+            "date": "",
+            "lat": "12.887587",
+            "lng": "77.549059",
+            "status": "Open",
+            "image": "",
+            "timestamp": "2026-04-22T11:38:18.089148"
+        },
+        {
+            "id": "CMP-006",
+            "user_id": 3,
+            "address": "Anjanapura, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560062, India",
+            "category": "Water",
+            "description": "water need suffecent",
+            "date": "",
+            "lat": "12.887567",
+            "lng": "77.549064",
+            "status": "In Progress",
+            "image": "",
+            "timestamp": "2026-04-22T11:44:20.145704"
+        }
+    ]
+}

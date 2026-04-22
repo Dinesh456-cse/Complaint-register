@@ -1,0 +1,45 @@
+{
+    "users": [
+        {
+            "id": "USR-001",
+            "name": "Dinesh C",
+            "phone": "1234567890",
+            "email": "dn@gmail.com",
+            "dob": "2005-01-01",
+            "password": "scrypt:32768:8:1$wUVuLMsdgMuHd0Xb$df5562ad1442e8d5861aca017054ab448dbeccca7e172dd7f6e484400540e73b56c88297a156ff199c777bdcdec5e977307e054a2786ec25ca5c4a52a96c29d9",
+            "role": "admin",
+            "image": null,
+            "created_at": "2026-04-21T21:07:52.710467"
+        },
+        {
+            "id": 2,
+            "name": "Darshan",
+            "phone": "0987654321",
+            "email": "bs@gmail.com",
+            "dob": "2004-01-01",
+            "password": "scrypt:32768:8:1$6UL2dl6EaSsacVb0$6c356b4593761784ee400a34259adcfcced7eb7bcb99978758d994860b2ab67447cc5347b24d629d232f2de4f7047bc8f7577cc855cbcefaa2a34021919bee01",
+            "role": "admin",
+            "image": ""
+        },
+        {
+            "id": 3,
+            "name": "A",
+            "phone": "4567876544",
+            "email": "a@gmail.com",
+            "dob": "2020-01-01",
+            "password": "scrypt:32768:8:1$Cfbv12MfhSG9HLBy$aeb329ba06548783da76c4865a517f6386ca502ce6ef901cdedef4115b12ecc192ba52826cd5c0a39660c9025933ce6a67a2a1237002b9ab99a76dce33f78efe",
+            "role": "user",
+            "image": ""
+        },
+        {
+            "id": 4,
+            "name": "B",
+            "phone": "6565565655",
+            "email": "b@gmail.com",
+            "dob": "2018-01-01",
+            "password": "scrypt:32768:8:1$9Alrzdw4H7fT51TO$e800b310585b5a5da74c15872e6a841b1c41e8ec29b4a666057f2e3d8db386a35d2f5940627d49058e278c632700ea6e61289e941d44f67fdb91fe2cd1b415dd",
+            "role": "user",
+            "image": ""
+        }
+    ]
+}

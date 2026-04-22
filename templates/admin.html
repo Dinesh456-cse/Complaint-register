@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="brand">Complaint Management</div>
+      <div class="top-links">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout" class="logout-link">Logout</a>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="admin-grid">
+        <!-- USERS PANEL -->
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Users</h2>
+          </div>
+
+          {% for u in users %}
+          <div class="admin-item">
+            <div>
+              <strong>{{ u.name }}</strong>
+              <p>{{ u.phone }}</p>
+              <small>{{ u.role }}</small>
+            </div>
+
+            <div class="admin-actions">
+              <form method="POST">
+                <input type="hidden" name="user_id" value="{{ u.id }}" />
+                <button name="action" value="promote" class="btn-small">
+                  Promote
+                </button>
+              </form>
+
+              <form method="POST">
+                <input type="hidden" name="user_id" value="{{ u.id }}" />
+                <button name="action" value="delete_user" class="btn-delete">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- COMPLAINTS PANEL -->
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Complaints</h2>
+          </div>
+
+          {% for c in complaints %}
+          <div class="admin-item vertical">
+            <div class="admin-complaint-top">
+              <span class="complaint-id">{{ c.id }}</span>
+              <span
+                class="complaint-status status-{{ c.status|lower|replace(' ', '-') }}"
+              >
+                {{ c.status }}
+              </span>
+            </div>
+
+            <h3>{{ c.category }}</h3>
+            <p>{{ c.address }}</p>
+            <small>{{ c.description }}</small>
+
+            <!-- STATUS UPDATE -->
+            {% set statuses = ["Open", "In Progress", "Resolved"] %}
+
+            <form method="POST" class="admin-status-form">
+              <input type="hidden" name="complaint_id" value="{{ c.id }}" />
+
+              <select name="status">
+                {% for s in statuses %}
+                <option value="{{ s }}" {% if c.status == s %}selected{% endif %}>
+                  {{ s }}
+                </option>
+                {% endfor %}
+              </select>
+
+              <button name="action" value="update_status" class="btn-small">
+                Update
+              </button>
+            </form>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

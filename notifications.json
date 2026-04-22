@@ -1,0 +1,36 @@
+{
+    "notifications": [
+        {
+            "id": 1,
+            "user_id": "admin",
+            "message": "New complaint CMP-004 from Darshan",
+            "link": "/admin",
+            "read": false,
+            "timestamp": "2026-04-22 08:19"
+        },
+        {
+            "id": 2,
+            "user_id": "admin",
+            "message": "New complaint CMP-005 from Dinesh C",
+            "link": "/complaint/CMP-005",
+            "read": false,
+            "timestamp": "2026-04-22 11:38"
+        },
+        {
+            "id": 3,
+            "user_id": "admin",
+            "message": "New complaint CMP-006 from A",
+            "link": "/complaint/CMP-006",
+            "read": false,
+            "timestamp": "2026-04-22 11:44"
+        },
+        {
+            "id": 4,
+            "user_id": 3,
+            "message": "Your complaint CMP-006 is now In Progress",
+            "link": "/complaint/CMP-006",
+            "read": false,
+            "timestamp": "2026-04-22 11:45"
+        }
+    ]
+}

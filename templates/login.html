@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Complaint Management</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="auth-page">
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Welcome Back</h2>
+          <p>Login to continue</p>
+        </div>
+
+        <form method="POST">
+          <div class="form-group">
+            <label>Phone</label>
+            <input name="phone" placeholder="Enter phone number" required />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+
+          <button id="submit-btn" type="submit" class="btn-primary">
+            Login
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="/register">Register</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SweetAlert2 Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <script>
+      {% for category, message in messages %}
+        Swal.fire({
+          icon: "{{ 'success' if category=='success' else 'error' }}",
+          title: "{{ category.title() }}",
+          text: "{{ message }}",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      {% endfor %}
+    </script>
+    {% endif %} {% endwith %}
+  </body>
+</html>

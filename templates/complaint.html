@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Complaint</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="brand">Complaint Management</div>
+      <div class="top-links">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout" class="logout-link">Logout</a>
+      </div>
+    </div>
+
+    <div class="page narrow">
+      <div class="panel form-panel">
+        <div class="panel-head">
+          <h2>Register Complaint</h2>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>Address</label>
+            <input
+              name="address"
+              id="address"
+              placeholder="Enter address or use current location"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn-secondary" onclick="getLocation()">
+              Use My Current Location
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label>Category</label>
+            <input
+              list="category-list"
+              id="category"
+              name="category"
+              placeholder="Select or type new category"
+              required
+            />
+            <datalist id="category-list">
+              {% for c in categories %}
+              <option value="{{ c }}">{% endfor %}</option>
+            </datalist>
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              id="desc"
+              name="desc"
+              placeholder="Describe your complaint"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" />
+          </div>
+
+          <input type="hidden" name="lat" id="lat" />
+          <input type="hidden" name="lng" id="lng" />
+
+          <div class="form-group">
+            <label>Complaint Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onchange="preview(event)"
+            />
+            <img id="preview" class="preview-img" style="display: none" />
+          </div>
+
+          <button id="submit-btn" type="submit" class="btn-primary">
+            Submit Complaint
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function preview(e) {
+        const img = document.getElementById("preview");
+        if (e.target.files[0]) {
+          img.src = URL.createObjectURL(e.target.files[0]);
+          img.style.display = "block";
+        }
+      }
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(async function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            document.getElementById("lat").value = lat;
+            document.getElementById("lng").value = lng;
+
+            try {
+              const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
+              );
+              const data = await response.json();
+              if (data && data.display_name) {
+                document.getElementById("address").value = data.display_name;
+              } else {
+                document.getElementById("address").value = lat + ", " + lng;
+              }
+            } catch (err) {
+              document.getElementById("address").value = lat + ", " + lng;
+            }
+          });
+        } else {
+          alert("Geolocation not supported");
+        }
+      }
+    </script>
+
+    <!-- SweetAlert2 Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <script>
+      {% for category, message in messages %}
+        Swal.fire({
+          icon: "{{ 'success' if category=='success' else 'error' }}",
+          title: "{{ category.title() }}",
+          text: "{{ message }}",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      {% endfor %}
+    </script>
+    {% endif %} {% endwith %}
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <!-- 🔝 TOP BAR -->
+    <div class="topbar">
+      <div class="brand">📋 CMS</div>
+
+      <div class="top-links">
+        <!-- 🔔 NOTIFICATION -->
+        <div class="notif-wrapper" onclick="toggleNotifs(event)">
+          <span>🔔</span>
+          <span id="notif-count" class="notif-badge" style="display: none"
+            >0</span
+          >
+
+          <div id="notif-dropdown" class="notif-dropdown">
+            <div id="notif-list" class="notif-list-inner">
+              <div class="notif-item-empty">Loading...</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="/complaint">+ New Complaint</a>
+        <a href="/profile">Profile</a>
+
+        {% if session.user.role == 'admin' %}
+        <a href="/admin">Admin Panel</a>
+        {% endif %}
+
+        <a href="/logout" class="logout-link">Logout</a>
+      </div>
+    </div>
+
+    <!-- 📦 MAIN -->
+    <div class="page">
+      <div class="page-head">
+        <h1>Dashboard</h1>
+        <p>Track your complaints and their current status</p>
+      </div>
+
+      <!-- 📊 STATS -->
+      <div class="stats-grid">
+        <div class="stat-card open-card">
+          <h3>{{ stats['Open'] }}</h3>
+          <p>Open</p>
+        </div>
+
+        <div class="stat-card progress-card">
+          <h3>{{ stats['In Progress'] }}</h3>
+          <p>In Progress</p>
+        </div>
+
+        <div class="stat-card resolved-card">
+          <h3>{{ stats['Resolved'] }}</h3>
+          <p>Resolved</p>
+        </div>
+      </div>
+
+      <!-- 📋 COMPLAINTS -->
+      <div class="panel">
+        <div class="panel-head">
+          <h2>My Complaints</h2>
+        </div>
+
+        <div class="complaint-list">
+          {% for c in complaints %}
+          <div class="complaint-card">
+            <div class="complaint-main">
+              <div class="complaint-top">
+                <span class="complaint-id">{{ c.id }}</span>
+
+                <span
+                  class="complaint-status status-{{ c.status|lower|replace(' ', '-') }}"
+                >
+                  {{ c.status }}
+                </span>
+              </div>
+
+              <h3>{{ c.category }}</h3>
+              <p>{{ c.address }}</p>
+              <small>{{ c.date if c.date else 'No date' }}</small>
+            </div>
+
+            <div class="complaint-actions">
+              <a href="/complaint/{{ c.id }}" class="btn-view">View/Edit</a>
+
+              <form
+                method="POST"
+                action="/complaint/delete/{{ c.id }}"
+                onsubmit="return confirm('Are you sure?');"
+              >
+                <button type="submit" class="btn-delete">Delete</button>
+              </form>
+            </div>
+          </div>
+
+          {% else %}
+          <div class="empty-box">
+            <p>No complaints registered yet.</p>
+            <a href="/complaint" class="btn-small-link">Create Complaint</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔔 TOAST -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+      /* 🔔 FLASH TOAST */
+      const flashMessages = { get_flashed_messages(with_categories=true)|tojson};
+      if (flashMessages.length > 0) {
+        flashMessages.forEach(msg => {
+          showToast(msg[1], msg[0] || 'info');
+        });
+      }
+
+      function showToast(message, type='info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+      }
+
+      /* 🔔 NOTIFICATIONS */
+      function toggleNotifs(e) {
+        e.stopPropagation();
+
+        const dropdown = document.getElementById('notif-dropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+
+        if (dropdown.style.display === 'block') loadNotifications();
+      }
+
+      async function loadNotifications() {
+        try {
+          const res = await fetch('/get_notifications');
+          const data = await res.json();
+
+          const list = document.getElementById('notif-list');
+          const count = document.getElementById('notif-count');
+
+          if (!data.notifications || data.notifications.length === 0) {
+            list.innerHTML = '<div class="notif-item-empty">No new notifications</div>';
+            count.style.display = 'none';
+            return;
+          }
+
+          count.innerText = data.count > 9 ? '9+' : data.count;
+          count.style.display = data.count > 0 ? 'block' : 'none';
+
+          list.innerHTML = data.notifications.map(n => `
+            <a href="${n.link}" class="notif-link">
+              <div class="notif-item">
+                <strong>${n.timestamp}</strong><br>
+                ${n.message}
+              </div>
+            </a>
+          `).join('');
+
+        } catch (err) {
+          console.error("Notification error:", err);
+        }
+      }
+
+      /* 🔒 CLOSE DROPDOWN */
+      document.addEventListener('click', () => {
+        document.getElementById('notif-dropdown').style.display = 'none';
+      });
+
+      /* 🔁 AUTO REFRESH */
+      setInterval(loadNotifications, 15000);
+    </script>
+  </body>
+</html>
